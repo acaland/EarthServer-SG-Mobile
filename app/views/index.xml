@@ -1,0 +1,34 @@
+<Alloy>
+	<Window> 
+		<NavigationGroup id="mainNavGroup" platform="ios">
+			<Window id="repo" onOpen="loadTypeList">
+				<LeftNavButton>
+                	<Button title="Repos" onClick="openLeft"></Button>
+            	</LeftNavButton>
+				
+				<TableView id="typesTableView" onClick="loadEntries"></TableView>
+				<Toolbar platform="ios" bottom="0" borderTop="true" borderBottom="false">
+
+					<!-- The Items tag sets the Toolbar.items property. -->
+					<Items>
+						<FlexSpace/>
+						<Label id="usarnameLbl">Logged as</Label>
+						<Label id="username" />
+						<FlexSpace/>
+						
+						<Button id="logout" title="Log Out" style="Ti.UI.iPhone.SystemButtonStyle.DONE" onClick="logout"/>
+					</Items>
+
+					<!-- Place additional views for the Toolbar here. -->
+
+				</Toolbar>
+			</Window>
+		</NavigationGroup>
+	</Window>
+	<Window id="leftWindow">
+        <TableView id="leftTable" rowHeight="70" >
+            <TableViewRow leftImage="earthserver.jpg" title="ESA-MERIS repository" repo="ESArep" header="EarthServer repositories"/>
+            <TableViewRow leftImage="appicon.png" title="WxS repositories" repo="WxS" />
+        </TableView>
+    </Window>
+</Alloy>
