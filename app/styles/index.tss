@@ -1,11 +1,11 @@
 "#usarnameLbl": {
-	color: "white",
+	//color: "#333333",
 	font: {
 		fontSize: "12dp"
 	}
 },
 "#username": {
-	color: "white",
+	color: "#666666",
 	font: {
 		fontWeight: "bold",
 		fontSize: "12dp"
@@ -13,4 +13,13 @@
 },
 "#typesTableView": {
 	bottom: "44dp"
+},
+"#leftTable": {
+	top: 20
+},
+"#leftWindow": {
+	top: 0,
+	backgroundColor: "white",
+	//fullscreen: true,
+	//statusBarStyle: Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT
 }

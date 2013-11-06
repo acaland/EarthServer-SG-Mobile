@@ -1,9 +1,11 @@
 
+
+
 $.idpsTableView.data = arguments[0].data;
 var navGroup = arguments[0].navGroup;
 $.IdpList.parentWin = arguments[0].parentWin;
 
-Ti.Platform.osname
+//Ti.Platform.osname
 
 function openIdpLoginWindow(e) {
 	
@@ -20,7 +22,7 @@ function openIdpLoginWindow(e) {
 	}
 	
 	idpLoginWindow.setTitle(e.rowData.name);
-	idpLoginWindow.backButtonTitle = 'Back'
+	idpLoginWindow.backButtonTitle = 'Back';
 	//loginWindow.leftNavButton = Titanium.UI.createButton({title:'Back'});
 	//Ti.API.info(e.rowData.origin);
 	

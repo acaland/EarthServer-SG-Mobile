@@ -29,8 +29,10 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <tool-api-level>15</tool-api-level>
         <manifest>
             <supports-screens android:anyDensity="false"/>
+            <application android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
         </manifest>
     </android>
     <mobileweb>
@@ -42,7 +44,7 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="iphone" version="1.3.2">dk.napp.slidemenu</module>
+        <module platform="iphone" version="1.4.0">dk.napp.slidemenu</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
@@ -52,8 +54,9 @@
         <target device="mobileweb">true</target>
         <target device="tizen">false</target>
     </deployment-targets>
-    <sdk-version>3.1.0.GA</sdk-version>
+    <sdk-version>3.1.3.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
+    <property name="ti.deploytype">development</property>
 </ti:app>

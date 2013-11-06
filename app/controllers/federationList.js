@@ -83,10 +83,20 @@ net.retrieveIdpList(entityId, function(federations) {
 	 return 0; //default return value (no sorting)
 	 }); */
 	var notSureRow = Ti.UI.createTableViewRow({
-		title : "Not sure? Tap here",
 		name : "NotSure",
-		hasChild : true
+		hasChild : true,
+		height: "80dp"
 	});
+	notSureRow.add(Ti.UI.createLabel({
+		text: "Not sure? Tap here",
+		width: Ti.UI.FILL,
+		textAlign: "center",
+		font: {
+			fontSize: "18dp",
+			fontWeight: "bold"
+		}
+	}));
+	
 	federationData.push(notSureRow);
 	$.federationsTableView.setData(federationData);
 	//$.federationsTableView.selectRow(0);
@@ -118,20 +128,25 @@ function openIdpList(e) {
 	//alert(e.rowData.name);
 
 	if (e.rowData.name == "GrIDP") {
-
+		
+		//Ti.API.info("idps data:");
+		//Ti.API.info(e.rowData.idps);
 		for (var i = 0; i < e.rowData.idps.length; i++) {
 
 			var row = Ti.UI.createTableViewRow({
 				height : 70
 			});
 
+			//Ti.API.info(encodeURI(e.rowData.idps[i].flag));
+			//Ti.API.info(e.rowData.idps[i].logo);
+			
 			row.add(Ti.UI.createImageView({
-				image : e.rowData.idps[i].flag,
+				image : encodeURI(e.rowData.idps[i].flag),
 				left : "25dp",
 				top : "5dp",
 				width : "40dp",
 				//borderWidth: 1
-			}));
+			}));  
 			row.add(Ti.UI.createLabel({
 				text : e.rowData.idps[i].country,
 				textAlign : "center",
@@ -156,10 +171,10 @@ function openIdpList(e) {
 			}));
 
 			row.add(Ti.UI.createImageView({
-				image : e.rowData.idps[i].logo,
+				image : encodeURI(e.rowData.idps[i].logo),
 				right : 5,
 				width : "60dp"
-			}));
+			})); 
 			row.name = e.rowData.idps[i].displayName;
 			row.origin = e.rowData.idps[i].origin;
 			row.class = "IdpList";
@@ -183,7 +198,7 @@ function openIdpList(e) {
 			}
 		}
 	}
-	Ti.API.info(idpsData);
+	//Ti.API.info(JSON.stringify(idpsData));
 
 	if (OS_IOS) {
 		var idpListWindow = Alloy.createController("IdpList", {

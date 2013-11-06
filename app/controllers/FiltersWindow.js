@@ -66,7 +66,7 @@ function filterChoosen() {
 
 function filterValues(e) {
 	var valuesListWindow = Alloy.createController("valueListWindow", {path: path, selectedRowIndex: e.index, tv: $.filters}).getView();
-	$.FiltersWindow.navGroup.open(valuesListWindow);
+	$.FiltersWindow.navGroup.openWindow(valuesListWindow);
 }
 
 

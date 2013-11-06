@@ -43,6 +43,6 @@ function downloadReplica(e) {
 		webView.backButtonTitle = "Replicas";
 		webView.title = url.split("/")[url.split("/").length-1];
 		webView.orientationModes = [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT, Ti.UI.PORTRAIT];
-		$.replicaWindow.navGroup.open(webView);
+		$.replicaWindow.navGroup.openWindow(webView);
 	}
 }

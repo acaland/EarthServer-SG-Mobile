@@ -61,15 +61,16 @@ function loadMetadata(query) {
 			for (var j = 0; j< visibleAttrs.length; j++ ) {
 				//Ti.API.info(visibleAttrs[j]);
 				row.add(Ti.UI.createLabel({
-					left: 85,
-					text: visibleAttrs[j] + ": " + response.records[i][visibleAttrs[j]],
-					top: 5 + j*16,
-					height: 16,
+					left: 80,
+					text: (j == 0 || j == 1) ? response.records[i][visibleAttrs[j]] : visibleAttrs[j] + ": " + response.records[i][visibleAttrs[j]],
+					top: 5 + j*34,
+					//height: (j == 0) ? 38 : 32,
 					font: {
-						fontSize: "14dp",
+						fontSize: (j==0) ? "10dp" :"13dp",
 						fontWeight: (j == 0 ? "bold" : "regular")
 					},
-					width: 240
+					width: 220
+					//borderWidth: 1
 				}));
 			}
 			row.hasChild = true;
@@ -131,15 +132,16 @@ function loadMore(row) {
 			for (var j = 0; j< visibleAttrs.length; j++ ) {
 				//Ti.API.info(visibleAttrs[j]);
 				row.add(Ti.UI.createLabel({
-					left: 85,
-					text: visibleAttrs[j] + ": " + response.records[i][visibleAttrs[j]],
-					top: 5 + j*16,
-					height: 16,
+					left: 80,
+					text: (j == 0 || j == 1) ? response.records[i][visibleAttrs[j]] : visibleAttrs[j] + ": " + response.records[i][visibleAttrs[j]],
+					top: 5 + j*34,
+					//height: (j == 0) ? 38 : 32,
 					font: {
-						fontSize: "14dp",
+						fontSize: (j==0) ? "10dp" :"13dp",
 						fontWeight: (j == 0 ? "bold" : "regular")
 					},
-					width: 240
+					width: 220
+					//borderWidth: 1
 				}));
 			}
 			row.hasChild = true;
@@ -206,7 +208,7 @@ function applyFilters() {
 		filtersWindow = Alloy.createController("FiltersWindow", {path: path, parent: $}).getView();
 	}
 	
-	$.entryBrowserWindow.navGroup.open(filtersWindow);
+	$.entryBrowserWindow.navGroup.openWindow(filtersWindow);
 	filtersWindow.navGroup = $.entryBrowserWindow.navGroup;
 }
 
@@ -228,6 +230,6 @@ clearBtn.addEventListener('click', function()  {
 
 function showMetadata(e) {
 	var entryDetailWindow = Alloy.createController("entryDetailWindow", {id: e.rowData.id, metadata: e.rowData.metadata}).getView();
-	$.entryBrowserWindow.navGroup.open(entryDetailWindow);
+	$.entryBrowserWindow.navGroup.openWindow(entryDetailWindow);
 	entryDetailWindow.navGroup = $.entryBrowserWindow.navGroup;
 }

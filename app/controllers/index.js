@@ -191,7 +191,7 @@ function loadEntries(e) {
 	var entryBrowser = Alloy.createController("entryBrowserWindow", {path: e.rowData.path, name: e.rowData.typename, visibleAttrs: e.rowData.visibleAttrs}).getView();
 	entryBrowser.navGroup = $.mainNavGroup;
 	window.setPanningMode("NavigationBarOrOpenCenterPanning");
-	$.mainNavGroup.open(entryBrowser);
+	$.mainNavGroup.openWindow(entryBrowser);
 }
 
 function logout() {
@@ -213,4 +213,4 @@ function logout() {
 exports.close = function() {
 	//Other cleanups here.
 	$.index.close();
-}
+};

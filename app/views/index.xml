@@ -1,6 +1,5 @@
-<Alloy>
-	<Window> 
-		<NavigationGroup id="mainNavGroup" platform="ios">
+<Alloy> 
+		<NavigationWindow id="mainNavGroup" platform="ios">
 			<Window id="repo" onOpen="loadTypeList">
 				<LeftNavButton>
                 	<Button title="Repos" onClick="openLeft"></Button>
@@ -23,9 +22,9 @@
 
 				</Toolbar>
 			</Window>
-		</NavigationGroup>
-	</Window>
-	<Window id="leftWindow">
+		</NavigationWindow>
+	
+	<Window id="leftWindow" platform="ios">
         <TableView id="leftTable" rowHeight="70" >
             <TableViewRow leftImage="earthserver.jpg" title="ESA-MERIS repository" repo="ESArep" header="EarthServer repositories"/>
             <TableViewRow leftImage="appicon.png" title="WxS repositories" repo="WxS" />

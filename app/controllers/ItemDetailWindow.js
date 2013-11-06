@@ -17,7 +17,7 @@ downloadTableViewRow.addEventListener('click', function() {
 		url : url
 	}).getView();
 	viewer.title = detail.attributes.FileName;
-	$.ItemDetailWindow.currentTab.open(viewer);
+	$.ItemDetailWindow.currentTab.openWindow(viewer);
 
 });
 

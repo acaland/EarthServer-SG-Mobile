@@ -40,7 +40,7 @@ function downloadEntry() {
 	var net = require('net');
 	net.apiCall(Alloy.Globals.gateway + "glibrary/links2/" + Alloy.Globals.repository + "/" + id + "/", function(response) {
 		var replicaWindow = Alloy.createController("replicaWindow", response).getView();
-		$.entryDetailWindow.navGroup.open(replicaWindow);
+		$.entryDetailWindow.navGroup.openWindow(replicaWindow);
 		replicaWindow.title = metadata.FileName;
 		replicaWindow.navGroup = $.entryDetailWindow.navGroup;
 	});
