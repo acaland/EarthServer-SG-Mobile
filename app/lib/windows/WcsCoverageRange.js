@@ -23,8 +23,6 @@ btnBack.addEventListener('click', function() {
 var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
 
-//Ti.API.info("WcsCoverageEnvelope.js - win.xmlData: " + win.xmlData);
-
 var rangeType = Ti.XML.Element;
 rangeType = win.xmlData.documentElement.getElementsByTagName("gmlcov:rangeType").item(0);
 
@@ -53,10 +51,7 @@ if (rangeType.getElementsByTagName("swe:field") != null) {
 		var row = Titanium.UI.createTableViewRow({
 			hasChild : false,
 			className : 'bands-row'
-		});
-
-		Ti.API.info('WcsCoverageRange.js - i = ' + i);
-		
+		});		
 		//title row
 		var titleRow = Titanium.UI.createLabel({
 			//text : 'Band-i',

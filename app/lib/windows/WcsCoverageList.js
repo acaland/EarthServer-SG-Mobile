@@ -31,6 +31,8 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
+
 /*
 win2.addEventListener('blur', winEvent);
 win2.addEventListener('close', winEvent);
@@ -95,7 +97,6 @@ var myArray = [];
 myArray[x - 1] = undefined;
 */
 
-
 //loop each item in the xml
 for (var i = 0; i < wcsCoverageSummary.length; i++) {
 
@@ -159,9 +160,12 @@ tblCoverageList.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
 	win1.rowID = e.index;
 	win1.coverageId = e.row.children[0].text;
-	Titanium.API.info("WcsCoverageList.js - win1.rowID: " + win1.rowID);
-	win1.open();
+	//Titanium.API.info("WcsCoverageList.js - win1.rowID: " + win1.rowID);
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
 });

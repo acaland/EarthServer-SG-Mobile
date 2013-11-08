@@ -22,17 +22,8 @@ btnBack.addEventListener('click', function() {
 var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
 
-Ti.API.info("WcsDescribeCoverage.js - xmlText: " + win.xmlText);
-/*
-//Verify if describeCoverage response is null for the server with index choosen
-var addedServers = [];
-if (Ti.App.Properties.hasProperty('addedServers')) {
-	addedServers = Ti.App.Properties.getList('addedServers');
-	for (var i = 0; i < addedServers.length; i++) {
-		//Ti.API.info("WcsDescribeCoverage.js - addedServers[0].describeCoverage: " + addedServers[i].describeCoverage);
-	};
-};
-*/
+alert(L('WcsDescribeCoverage_message'));
+
 var xmlData = Ti.XML;
 xmlData = Titanium.XML.parseString(win.xmlText);
 
@@ -45,6 +36,8 @@ var win1 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png'
 	//xmlData : xmlData
 });
+win1.padre = win.padre;
+
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/WcsCoverageDomain.js',
 	//title : 'Domain set',
@@ -53,6 +46,8 @@ var win2 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win2.padre = win.padre;
+
 var win3 = Titanium.UI.createWindow({
 	url : '/windows/WcsCoverageRange.js',
 	//title : 'Range type',
@@ -61,6 +56,7 @@ var win3 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win3.padre = win.padre;
 
 win1.xmlData = xmlData;
 win2.xmlData = xmlData;
@@ -268,17 +264,27 @@ tblCoverageInfo.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
 	if (e.index == 2) {	
-		//win1.xmlData = xmlData;
-		//Ti.API.info("WcsDescribeCoverage.js - win1.xmlData: " + win1.xmlData);
-		win1.open();
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	} else if (e.index == 3) {
-		win2.open();
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};
 	} else if (e.index == 4) {
-		win3.open();
+		if (Ti.App.isAndroid == true) {
+			win3.open();
+		} else {
+			win.padre.openWindow(win3);	
+		};
 	};
 });
+
 /*
 //Questo evento serve a rimuovere la tabella, che altrimenti rimarrebbe come sfondo, creando righe sovrapposte
 win.addEventListener('blur', removeTable);

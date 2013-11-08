@@ -30,6 +30,7 @@ var win1 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png',
 	//xml : win.xml
 });
+win1.padre = win.padre;
 
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/WmsOtherDimensions.js',
@@ -38,6 +39,7 @@ var win2 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png'
 	//xml : win.xml
 });
+win2.padre = win.padre;
 
 var win3 = Titanium.UI.createWindow({
 	url : '/windows/WmsStyle.js',
@@ -46,11 +48,8 @@ var win3 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png'
 	//xml : win.xml
 });
+win3.padre = win.padre;
 
-//Titanium.API.info("WcsMetadata - win.XML: " + win.xml);
-//Titanium.API.info("WcsMetadata - win.XML.CoverageId: " + win.xml.documentElement.getElementsByTagName("wcs:CoverageSummary").item(0).getElementsByTagName("wcs:CoverageId").item(0).textContent);
-
-//win.xml.documentElement.getElementsByTagName("wcs:CoverageSummary").item(win.rowID - 1).getElementsByTagName("wcs:CoverageId").item(0).textContent
 var str = '';
 var layer = Ti.XML.Element;
 layer = win.xml.documentElement.getElementsByTagName("Layer").item(win.rowID - 1);
@@ -432,7 +431,6 @@ str = '';
 if (layer.getElementsByTagName("Abstract").item(0) != null) {
 	str = layer.getElementsByTagName("Abstract").item(0).textContent;
 };
-//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"Abstract\").item(0): " + layer.getElementsByTagName("Abstract").item(0));
 var descriptionRow = Titanium.UI.createLabel({
 	text : str,
 	font : {
@@ -485,8 +483,6 @@ var descriptionRow = Titanium.UI.createLabel({
 	width : row.width - 20,
 	height : 'auto'
 });
-//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"KeywordList\").length: " + layer.getElementsByTagName("KeywordList").item(0).getElementsByTagName("Keyword").length);
-//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"KeywordList\"): " + layer.getElementsByTagName("KeywordList"));
 str = '';
 if (layer.getElementsByTagName("KeywordList").item(0) != null) {
 	//loop each keyword in the xml
@@ -535,22 +531,10 @@ var descriptionRow = Titanium.UI.createLabel({
 	width : row.width - 20,
 	height : 'auto'
 });
-//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"CRS\").length: " + layer.getElementsByTagName("CRS").length);
-//Titanium.API.info("LayerMetadata - layer.getChildNodes(\"CRS\").lenght: " + layer.getChildNodes().length);
-Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"CRS\"): " + layer.getElementsByTagName("CRS"));
 
 str = '';
 if (layer.getElementsByTagName("CRS").item(0) != null) {	//Da rivedere, prende anche tutti i tag CRS figli ??????
-
-	//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"CRS\").item(i).firstChild: " + layer.getElementsByTagName("CRS").item(i).firstChild.textContent);
-	//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"CRS\").item(i).parentNode.ENTITY_NODE: " + layer.getElementsByTagName("CRS").item(i).parentNode.ENTITY_NODE);
-
-	Titanium.API.info("LayerMetadata - PRIMA DI layersLen");
-	//var numeroLayers = layersLen;
-
-
-/*Da sistemare
-
+	/*Da sistemare
 	var layersLen = function() {
 	 
 		Titanium.API.info("LayerMetadata - DENTRO layersLen - PRIMA DI length");
@@ -559,10 +543,9 @@ if (layer.getElementsByTagName("CRS").item(0) != null) {	//Da rivedere, prende a
 		alert(n);
 	 
 	};
-
 	Titanium.API.info("LayerMetadata - DOPO DI layersLen");
 	alert(layersLen);
-*/
+	*/
 	//loop each keyword in the xml
 	for (var i = 0; i < layer.getElementsByTagName("CRS").length; i++) {
 		//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"CRS\").item(i).TEXT_NODE: " + layer.getElementsByTagName("CRS").item(i).TEXT_NODE);
@@ -829,12 +812,8 @@ var sectionGeographicDimensions = Ti.UI.createTableViewSection({
 	headerTitle : L('LayerMetadata_section4_title')
 });
 
-//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"BoundingBox\").length: " + layer.getElementsByTagName("BoundingBox").length);
-
 //loop each item in the xml
 for (var i = 0; i < layer.getElementsByTagName("BoundingBox").length; i++) {
-	Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"BoundingBox\").item(i).getAttribute(\"CRS\"): " + layer.getElementsByTagName("BoundingBox").item(i).getAttribute("CRS"));
-
 	//create a Bounding box row
 	var row = Titanium.UI.createTableViewRow({
 		width : tblLayer.width,
@@ -856,7 +835,6 @@ for (var i = 0; i < layer.getElementsByTagName("BoundingBox").length; i++) {
 		width : row.width - 20
 	});
 	row.boundingBoxItem = i;
-	//Titanium.API.info("LayerMetadata - row.boundingBoxItem: " + row.boundingBoxItem);
 	row.add(titleRow);
 	//add our little icon to the right of the row
 	var iconImage = Titanium.UI.createImageView({
@@ -877,8 +855,6 @@ var sectionOtherDimensions = Ti.UI.createTableViewSection({
 
 //loop each item in the xml
 for (var i = 0; i < layer.getElementsByTagName("Dimension").length; i++) {
-	//Titanium.API.info("LayerMetadata - layer.getElementsByTagName(\"BoundingBox\").item(i).getAttribute(\"CRS\"): " + layer.getElementsByTagName("BoundingBox").item(i).getAttribute("CRS"));
-
 	//create a Dimension row
 	var row = Titanium.UI.createTableViewRow({
 		width : tblLayer.width,
@@ -900,13 +876,6 @@ for (var i = 0; i < layer.getElementsByTagName("Dimension").length; i++) {
 		width : row.width - 20
 	});
 	row.dimensionItem = i;
-	/*
-	 row.addEventListener('click', function(e) {
-	 win2.xmlItem = layer.getElementsByTagName("Dimension").item(row.dimensionItem);
-	 win2.title = layer.getElementsByTagName("Dimension").item(row.dimensionItem).getAttribute("name");
-	 win2.open();
-	 });
-	 */
 	row.add(titleRow);
 	//add our little icon to the right of the row
 	var iconImage = Titanium.UI.createImageView({
@@ -961,30 +930,32 @@ tblLayer.addEventListener('click', function(e) {
 		//alert("row.boundingBoxItem = " + e.row.boundingBoxItem);
 		win1.xmlItem = layer.getElementsByTagName("BoundingBox").item(e.row.boundingBoxItem);
 		win1.title = layer.getElementsByTagName("BoundingBox").item(e.row.boundingBoxItem).getAttribute("CRS");
-		win1.open();
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	} else if (e.row.dimensionItem != null) {
 		win2.xmlItem = layer.getElementsByTagName("Dimension").item(e.row.dimensionItem);
 		win2.title = layer.getElementsByTagName("Dimension").item(e.row.dimensionItem).getAttribute("name");
-		win2.open();
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};
 	} else if (e.row.styleItem != null) {
 		win3.xmlItem = layer.getElementsByTagName("Style").item(e.row.styleItem);
 		win3.title = layer.getElementsByTagName("Style").item(e.row.styleItem).getElementsByTagName("Name").item(0).textContent;
-		win3.open();
+		if (Ti.App.isAndroid == true) {
+			win3.open();
+		} else {
+			win.padre.openWindow(win3);	
+		};
 	};
 });
 
 tblLayer.data = [sectionLayerAttributes, sectionLayerInfo, sectionCoveredArea, sectionGeographicDimensions, sectionOtherDimensions, sectionStyles];
 win.add(tblLayer);
-
-
-
-
-//var layer1 = Ti.XML.Element;
-//var layer1 = win.xml.documentElement.getElementsByTagName("Layer").item(0).firstChild.textContent;
-//var layer1 = win.xml.documentElement.getElementsByTagName("Layer").item(0).getElementsByTagName("CRS").item(2).textContent;
-//var layer1 = win.xml.documentElement.getElementsByTagName("Layer").item(0).getElementsByTagName("CRS").length;
-//var layer1 = win.xml.documentElement.getElementsByTagName("Layer").item(0).getElementsByTagName("Layer").length;
-
 
 var layersLen = function() {
  
@@ -1010,9 +981,4 @@ var layersLen = function() {
 	return n;
 	*/
  
-}
-
-
-
-
-
+};

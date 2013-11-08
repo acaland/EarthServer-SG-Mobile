@@ -32,6 +32,7 @@ var win1 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png',
 	xml : win.xml
 });
+win1.padre = win.padre;
 
 var str = '';
 
@@ -84,7 +85,11 @@ var iconImage = Titanium.UI.createImageView({
 row.add(titleRow);
 row.add(iconImage);
 row.addEventListener('click', function(e) {
-	win1.open();
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
 });
 sectionXmlResponse.add(row);
 
@@ -1041,7 +1046,5 @@ row.add(titleRow);
 row.add(descriptionRow);
 sectionContactInfo.add(row);
 
-
 tblWmsServer.data = [sectionXmlResponse, sectionServerInfo, sectionServiceInfo, sectionContactInfo];
 win.add(tblWmsServer);
-

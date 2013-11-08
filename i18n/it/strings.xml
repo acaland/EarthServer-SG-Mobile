@@ -30,7 +30,6 @@
     <string name="settings_row6_description">Show WCS coverage metadata</string>
     <string name="settings_row7_title">Layer description</string>
     <string name="settings_row7_description">Show a WMS layer metadata</string>
-    <string name="ServerCapabilities_win_title">Capabilities</string>
     <string name="AvailableServers_win_title">Available servers</string>
     <string name="AvailableServers_last_row_title">Add a new server</string>
     <string name="AddServer_win_title">Add server</string>
@@ -59,9 +58,12 @@
     <string name="AddNewServer_EmptyFields_message">Name or URL missed.</string>
     <string name="AddNewServer_EmptyFields_title">Fields missed</string>
    
-    <string name="ServerCapabilities_section1_title">WCS Servers</string>
+   	<string name="ServerCapabilities_win_title">Capabilities</string>
+ 	<string name="ServerCapabilities_section1_title">WCS Servers</string>
     <string name="ServerCapabilities_section2_title">WMS Servers</string>
-    
+    <string name="ServerCapabilities_button_title">Delete all added servers</string>
+   	<string name="ServerCapabilities_message">All of servers deleted</string>
+     
     <string name="ViewXml_win_title">XML</string>
     <string name="ViewXml_wait_message">Please wait...</string>
     <string name="WcsServer_section1_title">Service Metadata</string>
@@ -105,13 +107,16 @@
     <string name="WcsServerList_win_title">WCS servers</string>
 
     <string name="WmsServerList_win_title">WMS servers</string>
-    
+
     <string name="WcsCoverageMetadata_win_title">Coverage metadata</string>
     <string name="WcsCoverageMetadata_row1_title">From getCapabilities</string>
     <string name="WcsCoverageMetadata_row1_description">Show coverage metadata included in getCapabilities contents section</string>
     <string name="WcsCoverageMetadata_row2_title">From describeCoverage</string>
     <string name="WcsCoverageMetadata_row2_description">Show coverage metadata returned by describeCoverage operation</string>
-
+<!--
+	<string name="WcsCoverageMetadata_OkDialog_title">DescribeCoverage response</string>
+    <string name="WcsCoverageMetadata_OkDialog_message">Coverage metadata is ready</string>
+-->
     <string name="WcsDescribeCoverage_win_title">Describe Coverage</string>
     <string name="WcsDescribeCoverage_section1_title">Coverage ID and Type</string>
     <string name="WcsDescribeCoverage_row1_title">Id</string>
@@ -122,6 +127,7 @@
     <string name="WcsDescribeCoverage_row4_title">Show coverage domain</string>
     <string name="WcsDescribeCoverage_section4_title">Coverage range</string>
     <string name="WcsDescribeCoverage_row5_title">Show coverage range</string>
+    <string name="WcsDescribeCoverage_message">Coverage downloaded</string>
 
     <string name="WcsCoverageEnvelope_win_title">Envelope</string>
     <string name="WcsCoverageEnvelope_section1_title">Spatial envelope</string>
@@ -130,7 +136,7 @@
     <string name="WcsCoverageEnvelope_row3_title">Axis labels</string>
     <string name="WcsCoverageEnvelope_row4_title">Axis UOMs</string>
     <string name="WcsCoverageEnvelope_row5_title">Lower corner</string>
-    <string name="WcsCoverageEnvelope_row6_title">Upper corner</string> 
+    <string name="WcsCoverageEnvelope_row6_title">Upper corner</string>
   
     <string name="WcsCoverageDomain_win_title">Domain set</string>
     <string name="WcsCoverageDomain_section1_title">Grid envelope</string>
@@ -151,6 +157,7 @@
 <!--    <string name="WcsCoverageRange_row2_title">Band-%s</string>
     <string name="WcsCoverageRange_row3_title">Band-%s</string>
 -->
+
     <string name="WcsCoverageList_win_title">Coverages</string>
     <string name="WcsCoverageList_section1_title">Coverages</string>
     
@@ -170,6 +177,8 @@
     <string name="WcsGetCoverage_row6_hintText">Not specified yet</string>
     <string name="WcsGetCoverage_row7_title">Height</string>
     <string name="WcsGetCoverage_row7_hintText">Not specified yet</string>
+    <string name="WcsGetCoverage_message">Coverage downloaded</string>
+    <string name="WcsGetCoverage_ErrorMessage">Insert the correct image size</string>
 
     <string name="CoverageInfo_win_title">Coverage information</string>
     <string name="CoverageInfo_section1_title">Coverage ID and Type</string>
@@ -257,9 +266,56 @@
     <string name="WmsMetadata_row21_title">Telephone</string>
     <string name="WmsMetadata_row22_title">Facsimile</string>
     <string name="WmsMetadata_row23_title">E-mail</string>
+ 
+    <string name="WmsGetMap_win_title">Get map</string>
+    <string name="WmsGetMap_button_title">Send</string>
+    <string name="WmsGetMap_section1_title">Bounding box</string>
+    <string name="WmsGetMap_row1_title">CRS</string>
+    <string name="WmsGetMap_row2_title">Min latitude</string>
+    <string name="WmsGetMap_row3_title">Min longitude</string>
+    <string name="WmsGetMap_row4_title">Max latitude</string>
+    <string name="WmsGetMap_row5_title">Max longitude</string>
+    <string name="WmsGetMap_section2_title">Other dimensions</string>
+    <string name="WmsGetMap_section3_title">Map image</string>
+    <string name="WmsGetMap_row6_title">Width</string>
+    <string name="WmsGetMap_row6_hintText">Not specified yet</string>
+    <string name="WmsGetMap_row7_title">Height</string>
+    <string name="WmsGetMap_row7_hintText">Not specified yet</string>
+    <string name="WmsGetMap_message">Layer downloaded</string>
+    <string name="WmsGetMap_ErrorMessage">Insert the correct image size</string>
+        
+    <string name="WmsBackground_addLayer_win_title">Background colors</string>
+    <string name="WmsBackground_addLayer_section1_title">Opacity</string>
+    <string name="WmsBackground_addLayer_row1_title">Transparent</string>
+
+    <string name="WmsRgbOther_win_title">Choose RGB color</string>
+    <string name="WmsRgbOther_section1_title">RGB color</string>
+    <string name="WmsRgbOther_rgb_hintText">Insert an int value (0-255)</string>
+    <string name="WmsRgbOther_ErrorMessage">Insert the correct numbers (0-255)</string>
+
+    <string name="Overlays_win_title">Overlays</string>
     
-    <string name="NavButton_back">Indietro</string>
-    <string name="NavButton_close">Chiudi</string>
-    
+    <string name="OverlayDetails_win_title">Overlay details</string>
+    <string name="OverlayDetails_section1_title">Overlay image</string>
+    <string name="OverlayDetails_section2_title">Image settings</string>
+    <string name="OverlayDetails_label1">Visible</string>
+    <string name="OverlayDetails_label2">Opacity</string>
+    <string name="OverlayDetails_section3_title">Coverage info</string>
+    <string name="OverlayDetails_row1_title">Coverage ID</string>
+    <string name="OverlayDetails_row2_title">Server name</string>
+    <string name="OverlayDetails_row3_title">Server URL</string>
+    <string name="OverlayDetails_section4_title">Image info</string>
+    <string name="OverlayDetails_row4_title">CRS</string>
+    <string name="OverlayDetails_row5_title">Min lat</string>
+    <string name="OverlayDetails_row6_title">Min lon</string>
+    <string name="OverlayDetails_row7_title">Max lat</string>
+    <string name="OverlayDetails_row8_title">Max lon</string>
+    <string name="OverlayDetails_row9_title">Width</string>
+    <string name="OverlayDetails_row10_title">Height</string>
+    <string name="OverlayDetails_row11_title">Bands</string>
+
+    <string name="NavButton_back">Back</string>
+    <string name="NavButton_close">Close</string>
+     
      
 </resources>

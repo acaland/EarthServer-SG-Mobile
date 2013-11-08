@@ -5,7 +5,7 @@
 Titanium.UI.setBackgroundColor('#000');
 Titanium.UI.setBackgroundImage('/images/bgImage.png');
 
-//Parent window = WmsServerList.js
+//Parent window = ServerCapabilities.js
 
 //reference the current window
 var win = Titanium.UI.currentWindow;
@@ -31,6 +31,7 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
 
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/LayerMetadata.js',
@@ -40,6 +41,7 @@ var win2 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win2.padre = win.padre;
 
 //Create the tableView
 var tblWmsServer = Titanium.UI.createTableView({
@@ -98,9 +100,6 @@ var sectionLayers = Ti.UI.createTableViewSection({
 	headerTitle : L('WmsServer_section2_title')
 });
 
-/*
- * Da riempire automaticamente con i tag "Layer" del relativo xml
- */
 var xmlData = Titanium.XML.parseString(win.xmlText);
 
 win1.xml = xmlData;
@@ -108,11 +107,9 @@ win2.xml = xmlData;
 
 //get the item nodelist from our response xml object
 layer = xmlData.documentElement.getElementsByTagName("Layer");
-//Titanium.API.info("WmsServer.js - layer.lenght: " + layer.length);
 
 //loop each item in the xml
 for (var i = 0; i < layer.length; i++) {
-
 	//create a table row
 	var row = Titanium.UI.createTableViewRow({
 		width : tblWmsServer.width,
@@ -121,22 +118,6 @@ for (var i = 0; i < layer.length; i++) {
 		//hasChild : true,
 		className : 'layer-row'
 	});
-	/*
-	//title row
-	var titleRow = Titanium.UI.createLabel({
-	text : layer.item(i).getElementsByTagName("Name").item(0).textContent,
-	font : {
-	fontSize : 22,
-	fontWeight : 'bold'
-	},
-	color : '#000',
-	left : 10,
-	top : 5,
-	height : 30,
-	//height : 'auto',
-	width : row.width - 60
-	});
-	*/
 	//description row
 	var descriptionRow = Titanium.UI.createLabel({
 		text : layer.item(i).getElementsByTagName("Title").item(0).textContent,
@@ -154,8 +135,6 @@ for (var i = 0; i < layer.length; i++) {
 		//height : 55,
 		height : 'auto'
 	});
-	//descriptionRow.top = (row.height - descriptionRow.height) / 2;
-	//row.add(titleRow);
 	//add our little icon to the right of the row
 	var iconImage = Titanium.UI.createImageView({
 		image : '/images/next.png',
@@ -177,12 +156,18 @@ win.add(tblWmsServer);
 tblWmsServer.addEventListener('click', function(e) {
 	//Attenzione e.index (in questo caso il num di riga va da 1 a n)
 	//Attenzione, occorre escludere la riga 0 perchè appartiene alla sezione Metadata
-
 	if (e.index == 0) {
-		win1.open();
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	} else {
 		win2.rowID = e.index;
-		Titanium.API.info("WmsServer.js - win2.rowID: " + win2.rowID);
-		win2.open();
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};
 	};
 });

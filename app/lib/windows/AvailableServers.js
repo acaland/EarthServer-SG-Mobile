@@ -2,15 +2,10 @@
  * @author Francesco
  */
 
-// this sets the background color of the master UIView (when there are no windows/tab groups on it)
-//Titanium.UI.setBackgroundColor('#000');
-//Titanium.UI.setBackgroundImage('/images/bgImage.png');
-
 //Parent window = Settings.js
 //reference the current window
 var win = Titanium.UI.currentWindow;
 win.backgroundColor = "white";
-//alert("sono qui");
 win.title = L('AvailableServers_win_title');
 
 var btnBack = Ti.UI.createButton({
@@ -32,25 +27,23 @@ var win1 = Titanium.UI.createWindow({
 	orientationModes : [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT, Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	//orientationModes : [Ti.UI.PORTRAIT]
 });
+win1.padre = win.padre;
 
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/AddNewServer.js',
 	//title : 'Add new server',
 	title : L('AddNewServer_win_title'),
-	//modal : true,
+	modal : true,
 	//backgroundColor : '#fff'
 	backgroundImage : '/images/bgImage.png',
 	orientationModes : [Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT, Ti.UI.PORTRAIT, Ti.UI.UPSIDE_PORTRAIT]
 	//orientationModes : [Ti.UI.PORTRAIT]
 });
+win2.padre = win.padre;
 
 //Misaurazione dello schermo
 var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
-
-// Creiamo una view che conterrà la tabella
-//var viewTable = Titanium.UI.createView({
-//});
 
 var tblServers = Titanium.UI.createTableView({
 	width : pWidth - 20,
@@ -167,37 +160,6 @@ var iconImage = Titanium.UI.createImageView({
 	top : 20
 });
 row.add(iconImage);
-
-/*
- //service
- var lblService = Titanium.UI.createLabel({
- text : '',
- font : {
- fontSize : 20,
- fontWeight : 'normal'
- },
- color : '#000',
- right : 10,
- top : 5,
- width : 50,
- height : 28
- });
- //url
- var lblUrl = Titanium.UI.createLabel({
- text : '',
- font : {
- fontSize : 16,
- fontWeight : 'normal'
- },
- color : '#2f4f4f',
- left : 10,
- top : 33,
- width : 'auto',
- height : 25
- });
- row.add(lblService);
- row.add(lblUrl);
- */
 row.add(lblName);
 
 //add the table row to our data[] object
@@ -211,191 +173,21 @@ tblServers.addEventListener('click', function(e) {
 	// children = the objects added to your row.
 	if (e.index == tblServers.data[0].rowCount - 1) {
 		//alert('clicked add new server');
-		win2.open({modal:true});
-		//win.close(); //resolving iOS problem
+		//alert('Ti.App.isAndroid = ' + Ti.App.isAndroid);
+		//win2.open({modal:true});
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};	
 	} else {
 		win1.name = e.row.children[0].text;
 		win1.service = e.row.children[1].text;
 		win1.urlServer = e.row.children[2].text;
-		win1.open();
-		//win.close(); //resolving iOS problem
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	};
 });
-
-/*
- //create a table row
- var row = Titanium.UI.createTableViewRow({
- hasChild : false,
- className : 'server-row'
- });
- //title row
- var titleRow = Titanium.UI.createLabel({
- text : 'EOX WCS Server',
- font : {
- fontSize : 20,
- fontWeight : 'bold'
- },
- color : '#000',
- left : 10,
- top : 5,
- width : 'auto',
- height : 28
- });
- var typeRow = Titanium.UI.createLabel({
- text : 'WCS',
- font : {
- fontSize : 20,
- fontWeight : 'normal'
- },
- color : '#000',
- right : 10,
- top : 5,
- width : 50,
- height : 28
- });
- //description row
- var descriptionRow = Titanium.UI.createLabel({
- text : 'http://ows.eox.at/cci/ows',
- font : {
- fontSize : 16,
- fontWeight : 'normal'
- },
- color : '#2f4f4f',
- left : 10,
- top : 33,
- width : 'auto',
- height : 25
- });
- row.add(titleRow);
- row.add(descriptionRow);
- row.add(typeRow);
- //add the table row to our data[] object
- data.push(row);
-
- //create a table row
- var row = Titanium.UI.createTableViewRow({
- hasChild : false,
- className : 'server-row'
- });
- //title row
- var titleRow = Titanium.UI.createLabel({
- text : 'EOX WCS Mapserver',
- font : {
- fontSize : 20,
- fontWeight : 'bold'
- },
- color : '#000',
- left : 10,
- top : 5,
- width : 'auto',
- height : 28
- });
- //description row
- var descriptionRow = Titanium.UI.createLabel({
- text : 'http://kalyke.eox.at/opendata/ows',
- font : {
- fontSize : 16,
- fontWeight : 'normal'
- },
- color : '#2f4f4f',
- left : 10,
- top : 33,
- width : 'auto',
- height : 25
- });
- row.add(titleRow);
- row.add(descriptionRow);
-
- //add the table row to our data[] object
- data.push(row);
-
- //create a table row
- var row = Titanium.UI.createTableViewRow({
- hasChild : false,
- className : 'server-row'
- });
- //title row
- var titleRow = Titanium.UI.createLabel({
- text : 'EarthServer EOX WMS Server',
- font : {
- fontSize : 20,
- fontWeight : 'bold'
- },
- color : '#000',
- left : 10,
- top : 5,
- width : 'auto',
- height : 28
- });
- //description row
- var typeRow = Titanium.UI.createLabel({
- text : 'WMS',
- font : {
- fontSize : 20,
- fontWeight : 'normal'
- },
- color : '#000',
- right : 10,
- top : 5,
- width : 50,
- height : 28
- });
- var descriptionRow = Titanium.UI.createLabel({
- text : 'http://earthserver.eox.at/open/ows',
- font : {
- fontSize : 16,
- fontWeight : 'normal'
- },
- color : '#2f4f4f',
- left : 10,
- top : 33,
- width : 'auto',
- height : 25
- });
- row.add(titleRow);
- row.add(descriptionRow);
-
- //add the table row to our data[] object
- data.push(row);
-
- //create a table row
- var row = Titanium.UI.createTableViewRow({
- hasChild : false,
- className : 'server-row'
- });
- //title row
- var titleRow = Titanium.UI.createLabel({
- text : 'EOX WMS Server',
- font : {
- fontSize : 20,
- fontWeight : 'bold'
- },
- color : '#000',
- left : 10,
- top : 5,
- width : 'auto',
- height : 28
- });
- //description row
- var descriptionRow = Titanium.UI.createLabel({
- text : 'http://ows.eox.at/ofc/ows',
- font : {
- fontSize : 16,
- fontWeight : 'normal'
- },
- color : '#2f4f4f',
- left : 10,
- top : 33,
- width : 'auto',
- height : 25
- });
- row.add(titleRow);
- row.add(descriptionRow);
-
- //add the table row to our data[] object
- data.push(row);
-
- //finally, set the data property of the tableView to our data[] object
- tblServers.data = data;
- */
-

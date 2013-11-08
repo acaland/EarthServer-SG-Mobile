@@ -31,15 +31,7 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
-/*
-win2.addEventListener('blur', winEvent);
-win2.addEventListener('close', winEvent);
-win2.addEventListener('focus', winEvent);
-win2.addEventListener('open', winEvent);
-function winEvent(e) {
-Ti.API.info('window event> evt:' + e.type + ' window:' + e.source.name);
-}
-*/
+win1.padre = win.padre;
 
 //Create the tableView
 var tblCoverageList = Titanium.UI.createTableView({
@@ -59,14 +51,12 @@ var addedServers = [];
 if (Ti.App.Properties.hasProperty('addedServers')) {
 	addedServers = Ti.App.Properties.getList('addedServers');
 };
-Ti.API.info("WcsCoverageList2.js - addedServers.length: " + addedServers.length);
 for (var i = 0; i < addedServers.length; i++) {
-	if (addedServers[i].describeCoverageArray != null) {
+	if ((addedServers[i].describeCoverageArray != null) && (addedServers[i].describeCoverageArray.length != 0)) {
 		var sectionServer = Ti.UI.createTableViewSection({
 			//headerTitle : 'Coverages'
 			headerTitle : addedServers[i].name
 		});
-		Ti.API.info("WcsCoverageList2.js - addedServers[i].describeCoverageArray.length: " + addedServers[i].describeCoverageArray.length);
 		//Add the coverages to the section
 		for (var j = 0; j < addedServers[i].describeCoverageArray.length; j++) {
 			Ti.API.info('WcsCoverageList2.js - 1 - i, j = ' + i + ', ' + j);
@@ -122,27 +112,20 @@ for (var i = 0; i < addedServers.length; i++) {
 				row.add(descriptionRow);
 				row.add(iconImage);
 				//hidden row
-				var xmlRow = Titanium.UI.createLabel({
-					text : addedServers[i].describeCoverageArray[j],
+				var serverIndexRow = Titanium.UI.createLabel({
+					text : i,
+					//text : addedServers[i].describeCoverageArray[j],
 					visible : false
 				});
-				row.add(xmlRow);
-				Ti.API.info('WcsCoverageList2.js - CIAO');
-								
-				row.addEventListener('click', function(e) {
-					// e.row contains information about the row that was clicked.
-					// e.row.title = Your Row Title
-					// children = the objects added to your row.
-										
-					win1.xmlText = row.children[3].text;
-					//win1.xmlText = addedServers[i].describeCoverageArray[j];
-									
-					//Titanium.API.info("WcsCoverageList.js - win1.xmlText: " + win1.xmlText);
-					win1.open();
+				row.add(serverIndexRow);
+				//hidden row
+				var layerIndexRow = Titanium.UI.createLabel({
+					text : j,
+					//text : addedServers[i].url,
+					visible : false
 				});
-				
+				row.add(layerIndexRow);
 				sectionServer.add(row);
-				Ti.API.info('WcsCoverageList2.js - 2 - i, j = ' + i + ', ' + j);
 			};
 		};
 		//Insert the server section
@@ -152,3 +135,15 @@ for (var i = 0; i < addedServers.length; i++) {
 tblCoverageList.setData(data);
 win.add(tblCoverageList);
 
+tblCoverageList.addEventListener('click', function(e) {
+	// e.row contains information about the row that was clicked.
+	// e.row.title = Your Row Title
+	// children = the objects added to your row.
+	win1.serverIndex = e.row.children[3].text;
+	win1.layerIndex = e.row.children[4].text;
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
+});

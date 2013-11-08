@@ -25,12 +25,13 @@ var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
 
 var win1 = Titanium.UI.createWindow({
-	url : '/windows/WmsServer.js',
+	url : '/windows/WmsServer2.js',
 	//title : e.row.children[0].text,
 	modal : true,
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
 
 var tblServers = Titanium.UI.createTableView({
 	width : pWidth - 20,
@@ -48,33 +49,21 @@ tblServers.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
-	Ti.API.info("ServerCapabilities - e.index: " + e.index);
 	win1.title = e.row.children[0].text;
-	//win1.xmlText = addedServers[e.index].getCapabilities
-	win1.xmlText = addedServers[e.row.children[2].text].getCapabilities
-
-	Ti.API.info("ServerCapabilities - win1.xmlText: " + win1.xmlText);
-	//activityIndicator.show();
-
-	//alert('Number row: ' + e.index + '\nServer: ' + addedServers[e.row.children[2].text].name);
-	win1.open();
-
+	win1.xmlText = addedServers[e.row.children[2].text].getCapabilities;
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
 });
 
 win.add(tblServers);
 
 //Read added servers from Properties
-/*
- Ti.API.info("ServerCapabilities - hasProperty('addedServers'): " + Ti.App.Properties.hasProperty('addedServers'));
- Ti.API.info("ServerCapabilities - hasProperty('prova'): " + Ti.App.Properties.hasProperty('prova'));
- Ti.API.info("AddNewServer - hasProperty('oggettoServer'): " + Ti.App.Properties.hasProperty('oggettoServer'));
- */
 var addedServers = [];
 if (Ti.App.Properties.hasProperty('addedServers')) {
 	addedServers = Ti.App.Properties.getList('addedServers');
-	//Ti.API.info("ServerCapabilities - addedServers: " + addedServers);
-	//Ti.API.info("ServerCapabilities - addedServers.lenght: " + addedServers.length);
 };
 
 //Empty array for data table
@@ -151,4 +140,3 @@ for (var i = 0; i < addedServers.length; i++) {
 };
 
 tblServers.data = data;
-

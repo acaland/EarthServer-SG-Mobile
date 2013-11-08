@@ -2,10 +2,6 @@
  * @author Francesco
  */
 
-// this sets the background color of the master UIView (when there are no windows/tab groups on it)
-//Titanium.UI.setBackgroundColor('#000');
-//Titanium.UI.setBackgroundImage('/images/bgImage.png');
-
 //Parent window = AvailableServers.js
 //reference the current window
 var win = Titanium.UI.currentWindow;
@@ -49,8 +45,6 @@ var data = [];
 //empty data array
 
 var tblServer = Titanium.UI.createTableView({
-	//height : pHeight - 20,
-	//height : 'auto',
 	width : pWidth - 20,
 	height : 272,
 	top : 120,
@@ -101,29 +95,6 @@ var descriptionRow = Titanium.UI.createLabel({
 });
 row.add(titleRow);
 row.add(descriptionRow);
-/*
-var optService = {
-cancel : 1,
-options : ['WCS', 'WMS'],
-selectedIndex : 0,
-destructive : 0,
-title : 'Scegli il tipo di server'
-};
-row.addEventListener('click', function(e) {
-if (win.service === '') {
-var dialog = Ti.UI.createOptionDialog(optService);
-dialog.addEventListener('click', function(e) {
-if (e.index ==0) {
-des
-Ti.API.info('AddServer.js - e.index =  ' + e.index + ' (WCS)');
-} else{
-Ti.API.info('AddServer.js - e.index =  ' + e.index + ' (WMS)');
-};
-});
-dialog.show();
-};
-});
-*/
 
 //add the table row to our data[] object
 data.push(row);
@@ -243,7 +214,6 @@ btnAddServer.addEventListener('click', function(e) {
 	//Ti.API.info("AddServer - Verifica esistenza - addedServers.length: " + addedServers.length);
 	var existServer = false;
 	for (var i = 0; i < addedServers.length; i++) {
-		Ti.API.info('AddServer.js - addedServers[' + i + '].url: ' + addedServers[i].url);
 		if (addedServers[i].url == win.urlServer) {
 			existServer = true;
 		};
@@ -260,22 +230,33 @@ btnAddServer.addEventListener('click', function(e) {
 	} else {
 		// Send request to server and save response to xml text
 
+		// activity indicator for entertainment
+		var indicatorStyle;
+		if (Ti.Platform.name === 'iPhone OS'){
+		  	indicatorStyle = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+		}
+		else {
+		  	indicatorStyle = Ti.UI.ActivityIndicatorStyle.DARK;
+		}
+		var actInd = Ti.UI.createActivityIndicator({
+	  		color: 'black',
+	  		font: {fontFamily:'Helvetica Neue', fontSize:26, fontWeight:'bold'},
+	  		message: 'Loading data...',
+	  		style: indicatorStyle,
+	  		//top: 10,
+	  		//left: 10,
+	  		height: Ti.UI.SIZE,
+	  		width: Ti.UI.SIZE
+		});
+		win.add(actInd);
+		actInd.show();
+
 		//declare the http client object to retrieve Capabilities XML
 		var xhr = Titanium.Network.createHTTPClient();
 
 		//this method will process the remote data
 		xhr.onload = function() {
 			var xmlText = this.responseText;
-			//var xml = Ti.xml;
-			//xml = this.responseXML;
-			/*
-			// Create and write xml to temp file
-			var f = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, '001.tmp');
-			//write file
-			f.write(xmlText);
-			Ti.API.info('AddServer.js - file "' + f.name + '": ' + f.read().text);
-			f = null;
-			*/
 			var covArray = [];
 			var newServer = {
 				name : tblServer.data[0].rows[1].children[1].text,
@@ -286,22 +267,9 @@ btnAddServer.addEventListener('click', function(e) {
 				//describeCoverageArray : null
 			};
 
-			/*
-			Ti.API.info('AddServer.js - newServer.name: ' + newServer.name);
-			Ti.API.info('AddServer.js - newServer.type: ' + newServer.type);
-			Ti.API.info('AddServer.js - newServer.url: ' + newServer.url);
-			Ti.API.info('AddServer.js - newServer.getCoverage: ' + newServer.getCapabilities);
-			Ti.API.info('AddServer.js - newServer.getCoverage.lenght: ' + newServer.getCapabilities.lenght);
-			*/
 			//newServer.getCoverage = xmlText;
 			addedServers.push(newServer);
 			Ti.App.Properties.setList('addedServers', addedServers);
-			/*
-			 Ti.API.info('AddServer.js - newServer.getCoverage: ' + newServer.getCapabilities);
-			 Ti.API.info("AddServer - addedServers: " + addedServers);
-			 Ti.API.info("AddServer - addedServers.length: " + addedServers.length);
-			 Ti.API.info("AddServer - hasProperty('addedServers'): " + Ti.App.Properties.hasProperty('addedServers'));
-			 */
 
 			var dialog = Ti.UI.createAlertDialog({
 				//message : 'New ' + win.service + ' server added',
@@ -314,29 +282,17 @@ btnAddServer.addEventListener('click', function(e) {
 				Ti.API.info('The cancel button was clicked');
 				win.close();
 			});
+			actInd.hide();
 			dialog.show(); 
 		};
 
 		//this method will fire if there's an error in accessing the remote data
 		xhr.onerror = function(e) {
-			/*
-			var dialog = Ti.UI.createAlertDialog({
-			//message : 'Error',
-			message : L('AddServer_ErrorDialog_title'),
-			ok : 'OK',
-			//title : 'Error'
-			title : L('AddServer_ErrorDialog_message')
-			}).show();
-			*/
-			//Ti.API.info("STATUS: " + this.status);
-			//Ti.API.info("TEXT:   " + this.responseText);
-			//Ti.API.info("ERROR:  " + e.error);
 			alert(L('AddServer_ErrorDialog_message'));
 		};
 
 		//Create the Request string for Capabilities
 		var strRequest = win.urlServer + '?Service=' + win.service + '&Request=GetCapabilities';
-		Ti.API.info('AddServer.js - strRequest: ' + strRequest);
 
 		xhr.open('GET', strRequest);
 

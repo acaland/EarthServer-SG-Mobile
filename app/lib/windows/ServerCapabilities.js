@@ -31,6 +31,7 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
 
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/WmsServer.js',
@@ -39,11 +40,45 @@ var win2 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win2.padre = win.padre;
+
+//create a button to save a server to the addedServers array
+var btnDeleteAllAddedServers = Titanium.UI.createButton({
+	//title : 'Delete all added servers',
+	title : L('ServerCapabilities_button_title'),
+	font : {
+		fontSize : 18,
+		fontFamily : 'Helvetica Neue',
+		fontWeight : 'bold'
+	},
+	top : 10,
+	right : 10,
+	width : 200,
+	height : 60,
+	//width : Math.round(pWidth / 4),
+	//height : Math.round(pHeight / 12),
+	backgroundImage : '/images/button.png'
+});
+win.add(btnDeleteAllAddedServers);
+
+btnDeleteAllAddedServers.addEventListener('touchstart', function(e) {
+	btnDeleteAllAddedServers.backgroundImage = '/images/button_focused.png';
+});
+
+btnDeleteAllAddedServers.addEventListener('touchend', function(e) {
+	btnDeleteAllAddedServers.backgroundImage = '/images/button.png';
+	//Remove addedServers array as global variable (le Properties rimangono in memoria anche ad app chiusa)
+	if (Ti.App.Properties.hasProperty('addedServers')) {
+		Ti.App.Properties.removeProperty('addedServers');
+		alert(L('ServerCapabilities_message'));
+	};
+	win.close();	
+});
 
 var tblCapabilities = Titanium.UI.createTableView({
 	width : pWidth - 20,
-	height : pHeight - 110,
-	top : 20,
+	height : pHeight - 170,
+	top : 70,
 	left : 10,
 	backgroundColor : '#B0C4DE',
 	borderRadius : 12,
@@ -61,25 +96,20 @@ tblCapabilities.addEventListener('click', function(e) {
 
 	if (addedServers[e.row.children[2].text].type === 'WCS') {
 		win1.title = e.row.children[0].text;
-		//win1.xmlText = addedServers[e.index].getCapabilities
-		win1.xmlText = addedServers[e.row.children[2].text].getCapabilities
-
-		Ti.API.info("ServerCapabilities - win1.xmlText: " + win1.xmlText);
-		//activityIndicator.show();
-
-		//alert('Number row: ' + e.index + '\nServer: ' + addedServers[e.row.children[2].text].name);
-		win1.open();
+		win1.xmlText = addedServers[e.row.children[2].text].getCapabilities;
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	} else {
 		win2.title = e.row.children[0].text;
-		//win1.xmlText = addedServers[e.index].getCapabilities
-		win2.xmlText = addedServers[e.row.children[2].text].getCapabilities
-
-		Ti.API.info("ServerCapabilities - win2.xmlText: " + win2.xmlText);
-		//activityIndicator.show();
-
-		//alert('Number row: ' + e.index + '\nServer: ' + addedServers[e.row.children[2].text].name);
-		win2.open();
-
+		win2.xmlText = addedServers[e.row.children[2].text].getCapabilities;
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};
 	};
 
 });
@@ -97,16 +127,9 @@ var sectionWMS = Ti.UI.createTableViewSection({
 });
 
 //Read added servers from Properties
- Ti.API.info("ServerCapabilities - hasProperty('addedServers'): " + Ti.App.Properties.hasProperty('addedServers'));
-/*
- Ti.API.info("ServerCapabilities - hasProperty('prova'): " + Ti.App.Properties.hasProperty('prova'));
- Ti.API.info("AddNewServer - hasProperty('oggettoServer'): " + Ti.App.Properties.hasProperty('oggettoServer'));
- */
 var addedServers = [];
 if (Ti.App.Properties.hasProperty('addedServers')) {
 	addedServers = Ti.App.Properties.getList('addedServers');
-	Ti.API.info("ServerCapabilities - addedServers: " + addedServers);
-	Ti.API.info("ServerCapabilities - addedServers.lenght: " + addedServers.length);
 };
 
 //Put data from array to table

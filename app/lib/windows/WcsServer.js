@@ -31,6 +31,7 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
 
 var win2 = Titanium.UI.createWindow({
 	url : '/windows/CoverageInfo.js',
@@ -40,15 +41,7 @@ var win2 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
-/*
-win2.addEventListener('blur', winEvent);
-win2.addEventListener('close', winEvent);
-win2.addEventListener('focus', winEvent);
-win2.addEventListener('open', winEvent);
-function winEvent(e) {
-Ti.API.info('window event> evt:' + e.type + ' window:' + e.source.name);
-}
-*/
+win2.padre = win.padre;
 
 //Create the tableView
 var tblWcsServer = Titanium.UI.createTableView({
@@ -115,25 +108,10 @@ win1.xml = xmlData;
 win2.xml = xmlData;
 
 //get the item nodelist from our response xml object
-//items = xml.documentElement.getElementsByTagName("ows:ServiceIdentification");
 wcsCoverageSummary = xmlData.documentElement.getElementsByTagName("wcs:CoverageSummary");
-//win2.wcsCoverageSummary = wcsCoverageSummary;
-
-//Titanium.API.info(this.responseText);
-//Titanium.API.info("XML: " + xml);
-/*
-Titanium.API.info("ITEMS LENGTH: " + items.length);
-Titanium.API.info("items: " + items.item(0).getElementsByTagName("wcs:CoverageId").item(0).text);
-Titanium.API.info("items: " + items.item(0).getElementsByTagName("wcs:CoverageSubtype").item(0).text);
-Titanium.API.info("items: " + items.item(1).getElementsByTagName("wcs:CoverageId").item(0).text);
-Titanium.API.info("items: " + items.item(1).getElementsByTagName("wcs:CoverageSubtype").item(0).text);
-*/
-//xmlItems = xml.documentElement.getElementsByTagName("wcs:CoverageId");
-//Titanium.API.info("XML 2: " + win1.xmlProp);
 
 //loop each item in the xml
 for (var i = 0; i < wcsCoverageSummary.length; i++) {
-
 	//create a table row
 	var row = Titanium.UI.createTableViewRow({
 		width : tblWcsServer.width,
@@ -185,21 +163,6 @@ for (var i = 0; i < wcsCoverageSummary.length; i++) {
 	sectionCoverages.add(row);
 }
 
-/*
-//finally, set the data property of the tableView to our data[] object
-var tblWcsServer = Titanium.UI.createTableView({
-width : pWidth - 20,
-height : pHeight - 110,
-top : 20,
-left : 10,
-backgroundColor : '#B0C4DE',
-borderRadius : 12,
-borderColor : '#AFEEEE',
-borderWidth : 2,
-data : [sectionMetadata, sectionCoverages]
-});
-*/
-
 //finally, set the data property of the tableView to our data[] object
 tblWcsServer.data = [sectionMetadata, sectionCoverages];
 
@@ -209,17 +172,19 @@ tblWcsServer.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
-
 	if (e.index == 0) {
-		Titanium.API.info("WcsServer.js - win.XML: " + win1.xml);
-		Titanium.API.info("WcsServer.js - win.XML.CoverageId: " + win1.xml.documentElement.getElementsByTagName("wcs:CoverageSummary").item(0).getElementsByTagName("wcs:CoverageId").item(0).textContent);
-
-		win1.open();
+		if (Ti.App.isAndroid == true) {
+			win1.open();
+		} else {
+			win.padre.openWindow(win1);	
+		};
 	} else {
-	//Attenzione e.index (in questo caso il num di riga va da 1 a n), ma ci servirà un indice che parta da 0
+		//Attenzione e.index (in questo caso il num di riga va da 1 a n), ma ci servirà un indice che parta da 0
 		win2.rowID = e.index - 1;
-		Titanium.API.info("WcsServer.js - win2.rowID: " + win2.rowID);
-		win2.open();
+		if (Ti.App.isAndroid == true) {
+			win2.open();
+		} else {
+			win.padre.openWindow(win2);	
+		};
 	};
 });

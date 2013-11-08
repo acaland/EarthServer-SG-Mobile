@@ -30,6 +30,7 @@ var win1 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win1.padre = win.padre;
 
 var tblServers = Titanium.UI.createTableView({
 	width : pWidth - 20,
@@ -47,22 +48,20 @@ tblServers.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
 	win1.title = e.row.children[0].text;
-	win1.xmlText = addedServers[e.row.children[2].text].getCapabilities	
+	win1.xmlText = addedServers[e.row.children[2].text].getCapabilities;	
 	//This index is to retrive (Capabilities and? NO) describeCoverage from the addedSever choose
 	win1.serverIndex = e.row.children[2].text;
-	win1.open();
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
 });
 
 win.add(tblServers);
 
 //Read added servers from Properties
-/*
- Ti.API.info("ServerCapabilities - hasProperty('addedServers'): " + Ti.App.Properties.hasProperty('addedServers'));
- Ti.API.info("ServerCapabilities - hasProperty('prova'): " + Ti.App.Properties.hasProperty('prova'));
- Ti.API.info("AddNewServer - hasProperty('oggettoServer'): " + Ti.App.Properties.hasProperty('oggettoServer'));
- */
 var addedServers = [];
 if (Ti.App.Properties.hasProperty('addedServers')) {
 	addedServers = Ti.App.Properties.getList('addedServers');

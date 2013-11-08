@@ -6,13 +6,20 @@
 //Titanium.UI.setBackgroundColor('#000');
 //Titanium.UI.setBackgroundImage('/images/bgImage.png');
 
-
+/*
 //Remove addedServers array as global variable (le Properties rimangono in memoria anche ad app chiusa)
 //Ti.App.addedServers = [];
-/*if (Ti.App.Properties.hasProperty('addedServers')) {
+if (Ti.App.Properties.hasProperty('addedServers')) {
 	Ti.App.Properties.removeProperty('addedServers');
-}; */
+};
+*/
 
+/*
+//Remove mapLayers array as global variable
+if (Ti.App.Properties.hasProperty('mapLayers')) {
+	Ti.App.Properties.removeProperty('mapLayers');
+};
+*/
 /*
 //Remove avalaibleServers array as global variable
 if (Ti.App.Properties.hasProperty('avalaibleServers')) {
@@ -20,13 +27,18 @@ Ti.App.Properties.removeProperty('avalaibleServers');
 };
  */
 
+var isAndroid = false;
+if (Ti.Platform.name === 'android'){
+        isAndroid = true;
+};
+Ti.App.isAndroid = isAndroid;
 
 
-//Insert two servers into avalaible servers list
-var avalaibleServers = [];
-if (Ti.App.Properties.hasProperty('avalaibleServers')) {
-	avalaibleServers = Ti.App.Properties.getList('avalaibleServers');
-	} else {
+
+if (!(Ti.App.Properties.hasProperty('avalaibleServers'))) {
+	//Insert two servers into avalaible servers list
+	var avalaibleServers = [];
+	
 	//Create an avalaibleServers array
 	var availableServer1 = {
 		name : 'EOxServer (OFC)',
@@ -42,22 +54,6 @@ if (Ti.App.Properties.hasProperty('avalaibleServers')) {
 	avalaibleServers.push(availableServer2);
 	Ti.App.Properties.setList('avalaibleServers', avalaibleServers);
 };
-/*
-//Create an avalaibleServers array
-var availableServer1 = {
-	name : 'EOxServer (OFC)',
-	type : 'WMS',
-	url : 'http://ows.eox.at/ofc/ows'
-};
-avalaibleServers.push(availableServer1);
-var availableServer2 = {
-	name : 'EOxServer (CCI)',
-	type : 'WCS',
-	url : 'http://ows.eox.at/cci/ows'
-};
-avalaibleServers.push(availableServer2);
-Ti.App.Properties.setList('avalaibleServers', avalaibleServers);
-*/
 
 
 /*
@@ -72,9 +68,16 @@ f.deleteFile();
 }
 */
 
+/*
+alert('Settings.js - Ti.App.mapLayers = ' + Ti.App.mapLayers);
+var mapLayers = [];
 
-
-
+if (Ti.App.mapLayers == undefined) {
+	mapLayers = [];
+	alert('Settings.js - mapLayers[] is undefined!');		
+};
+alert('Settings.js - mapLayers.length = ' + mapLayers.length);
+*/
 
 
 //Misaurazione dello schermo
@@ -94,10 +97,18 @@ var closeBtn = Ti.UI.createButton({
 win.leftNavButton = closeBtn; 
 
 closeBtn.addEventListener('click', function() {
-	win.close();
+	win.padre.close();
 });
-//win.title= L('settings_win_title');
-//Ti.API.info("settings.js - settings_win_title: " + L('settings_win_title'));
+
+var win11 = Titanium.UI.createWindow({
+	url : '/windows/Overlays.js',
+	//title : 'Overlays settings',
+	title : L('Overlays_win_title'),
+	modal : true,
+	//backgroundColor : '#fff',
+	backgroundImage : '/images/bgImage.png'
+});
+win11.padre = win.padre;
 
 var win12 = Titanium.UI.createWindow({
 	url : '/windows/WcsCoverageList2.js',
@@ -107,6 +118,17 @@ var win12 = Titanium.UI.createWindow({
 	//backgroundColor : '#fff',
 	backgroundImage : '/images/bgImage.png'
 });
+win12.padre = win.padre;
+
+var win13 = Titanium.UI.createWindow({
+	url : '/windows/WmsServerList_addLayer.js',
+	//title : 'Wms Server list',
+	title : L('WmsServerList_win_title'),
+	modal : true,
+	//backgroundColor : '#fff',
+	backgroundImage : '/images/bgImage.png'
+});
+win13.padre = win.padre;
 
 var win21 = Titanium.UI.createWindow({
 	url : '/windows/ServerCapabilities.js',
@@ -116,6 +138,7 @@ var win21 = Titanium.UI.createWindow({
 	//backgroundColor: '#fff'
 	backgroundImage : '/images/bgImage.png'
 });
+win21.padre = win.padre;
 
 var win22 = Titanium.UI.createWindow({
 	url : '/windows/AvailableServers.js',
@@ -125,6 +148,7 @@ var win22 = Titanium.UI.createWindow({
 	//backgroundColor: '#fff'
 	backgroundImage : '/images/bgImage.png'
 });
+win22.padre = win.padre;
 
 var win31 = Titanium.UI.createWindow({
 	url : '/windows/WcsServerList.js',
@@ -134,15 +158,17 @@ var win31 = Titanium.UI.createWindow({
 	//backgroundColor: '#fff'
 	backgroundImage : '/images/bgImage.png'
 });
+win31.padre = win.padre;
 
 var win32 = Titanium.UI.createWindow({
 	url : '/windows/WmsServerList.js',
-	//title: 'WCS Servers',
+	//title: 'WMS Servers',
 	//title: L('WmsServerList_win_title'),
 	modal : true,
 	//backgroundColor: '#fff'
 	backgroundImage : '/images/bgImage.png'
 });
+win32.padre = win.padre;
 
 var table1 = Ti.UI.createTableView({
 	top : 20,
@@ -197,6 +223,23 @@ var descriptionRow = Titanium.UI.createLabel({
 });
 row.add(titleRow);
 row.add(descriptionRow);
+//add our little icon to the right of the row
+var iconImage = Titanium.UI.createImageView({
+	image : '/images/next.png',
+	width : 48,
+	height : 48,
+	right : 10,
+	top : 20
+});
+row.add(iconImage);
+row.addEventListener('click', function(e) {
+	//win11.open();
+	if (Ti.App.isAndroid == true) {
+		win11.open();
+	} else {
+		win.padre.openWindow(win11);	
+	};
+});
 sectionOverlays.add(row);
 
 //create a table row
@@ -237,7 +280,6 @@ var descriptionRow = Titanium.UI.createLabel({
 });
 row.add(titleRow);
 row.add(descriptionRow);
-/*
 //add our little icon to the right of the row
 var iconImage = Titanium.UI.createImageView({
 	image : '/images/next.png',
@@ -247,10 +289,14 @@ var iconImage = Titanium.UI.createImageView({
 	top : 20
 });
 row.add(iconImage);
-*/
 row.addEventListener('click', function(e) {
 	//alert("Hai cliccato!");
 	//win12.open();
+	if (Ti.App.isAndroid == true) {
+		win12.open();
+	} else {
+		win.padre.openWindow(win12);	
+	};
 });
 sectionOverlays.add(row);
 
@@ -292,6 +338,23 @@ var descriptionRow = Titanium.UI.createLabel({
 });
 row.add(titleRow);
 row.add(descriptionRow);
+//add our little icon to the right of the row
+var iconImage = Titanium.UI.createImageView({
+	image : '/images/next.png',
+	width : 48,
+	height : 48,
+	right : 10,
+	top : 20
+});
+row.add(iconImage);
+row.addEventListener('click', function(e) {
+	//win13.open();
+	if (Ti.App.isAndroid == true) {
+		win13.open();
+	} else {
+		win.padre.openWindow(win13);	
+	};
+});
 sectionOverlays.add(row);
 
 var sectionServers = Ti.UI.createTableViewSection({
@@ -351,15 +414,12 @@ row.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
-	//alert("Hai cliccato \"Add server\"");
-	//alert("e.row.children[1].text:\n" + e.row.children[1].text);
-	//alert("e.row.children[2]:\n" + e.row.children[2].image);
-
-	//win1.mioParametro = e.row.children[0].text
-	//win1.mioOggetto = e.row.children
-
-	win21.open();
+	//win21.open();
+	if (Ti.App.isAndroid == true) {
+		win21.open();
+	} else {
+		win.padre.openWindow(win21);	
+	};
 });
 sectionServers.add(row);
 
@@ -415,12 +475,13 @@ row.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
-	//alert("Hai cliccato \"Add server\"");
-	//alert("e.row.children[1].text:\n" + e.row.children[1].text);
-	//alert("e.row.children[2]:\n" + e.row.children[2].image);
-	//alert("sono qui prima");
-	win22.open();
+	if (Ti.App.isAndroid == true) {
+		win22.open();
+	} else {
+		win.padre.openWindow(win22);	
+	};
+	//win22.open();
+	//win.padre.openWindow(win22);
 });
 
 sectionServers.add(row);
@@ -478,7 +539,12 @@ row.add(titleRow);
 row.add(descriptionRow);
 row.add(iconImage);
 row.addEventListener('click', function(e) {
-	win31.open();
+	//win31.open();
+	if (Ti.App.isAndroid == true) {
+		win31.open();
+	} else {
+		win.padre.openWindow(win31);	
+	};
 });
 sectionQueries.add(row);
 
@@ -520,11 +586,24 @@ var descriptionRow = Titanium.UI.createLabel({
 });
 row.add(titleRow);
 row.add(descriptionRow);
+//add our little icon to the right of the row
+var iconImage = Titanium.UI.createImageView({
+	image : '/images/next.png',
+	width : 48,
+	height : 48,
+	right : 10,
+	top : 20
+});
+row.add(iconImage);
 row.addEventListener('click', function(e) {
-	win32.open();
+	//win32.open();
+	if (Ti.App.isAndroid == true) {
+		win32.open();
+	} else {
+		win.padre.openWindow(win32);	
+	};
 });
 sectionQueries.add(row);
 
 table1.data = [sectionOverlays, sectionServers, sectionQueries];
-
 win.add(table1);

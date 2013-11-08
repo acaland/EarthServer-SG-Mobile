@@ -32,9 +32,7 @@ var win1 = Titanium.UI.createWindow({
 	backgroundImage : '/images/bgImage.png',
 	xml : win.xml
 });
-
-//Titanium.API.info("WcsMetadata - win.XML: " + win.xml);
-//Titanium.API.info("WcsMetadata - win.XML.CoverageId: " + win.xml.documentElement.getElementsByTagName("wcs:CoverageSummary").item(0).getElementsByTagName("wcs:CoverageId").item(0).textContent);
+win1.padre = win.padre;
 
 //Create the tableView
 var tblWcsServer = Titanium.UI.createTableView({
@@ -88,13 +86,11 @@ row.addEventListener('click', function(e) {
 	// e.row contains information about the row that was clicked.
 	// e.row.title = Your Row Title
 	// children = the objects added to your row.
-
-	//alert("Hai cliccato \"Add server\"");
-	//alert("e.row.children[1].text:\n" + e.row.children[1].text);
-	//alert("e.row.children[2]:\n" + e.row.children[2].image);
-
-	win1.open();
-
+	if (Ti.App.isAndroid == true) {
+		win1.open();
+	} else {
+		win.padre.openWindow(win1);	
+	};
 });
 sectionXmlResponse.add(row);
 
@@ -1033,22 +1029,5 @@ row.add(titleRow);
 row.add(descriptionRow);
 sectionServiceProvider.add(row);
 
-/*
- //finally, set the data property of the tableView to our sections
- //tblItems.data = data;
- var tblWcsServer = Titanium.UI.createTableView({
- width : pWidth - 20,
- height : pHeight - 110,
- top : 20,
- left : 10,
- backgroundColor : '#B0C4DE',
- borderRadius : 12,
- borderColor : '#AFEEEE',
- borderWidth : 2,
- data : [sectionXmlResponse, sectionServiceIdentification, sectionServiceProvider]
- });
- */
-
 tblWcsServer.data = [sectionXmlResponse, sectionServiceIdentification, sectionServiceProvider];
 win.add(tblWcsServer);
-

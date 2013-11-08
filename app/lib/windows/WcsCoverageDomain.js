@@ -359,7 +359,6 @@ var titleRow = Titanium.UI.createLabel({
 	height : 30
 });
 str = origin.getElementsByTagName("gml:Point").item(0).getElementsByTagName("gml:pos").item(0).textContent;
-//str = str.replace(" ", "\n");
 var numbersArray = [];
 numbersArray = str.split(" ");
 str = "";

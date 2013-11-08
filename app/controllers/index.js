@@ -6,10 +6,11 @@ Ti.API.info("username:" + net.username);
 
 // remove addedServer at application boot
 //alert("check removePropery");
+/*
 if (Ti.App.Properties.hasProperty('addedServers')) {
 	//alert("cancella addedServers");
 	Ti.App.Properties.removeProperty('addedServers');
-}; 
+}; */
 
 
 $.repo.title = Alloy.Globals.repository;
@@ -36,7 +37,13 @@ $.leftTable.addEventListener("click", function(e){
 			title: "Settings",
 			backgroundImage: "/images/bgImage.png"
 		});
-		wxs_client.open({modal:true});
+		var navWin = Ti.UI.iOS.createNavigationWindow({
+			modal:true,
+			window: wxs_client
+		});
+		wxs_client.padre = navWin;
+		navWin.open();
+		//wxs_client.open({});
 		//alert("loading WxS");
 	}
 	//Alloy.Globals.repository = e.rowData.repo;

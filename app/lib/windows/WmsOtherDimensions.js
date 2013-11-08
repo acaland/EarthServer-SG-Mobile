@@ -2,7 +2,7 @@
  * @author Francesco
  */
 
-//Parent window = LayerMetadata
+//Parent window = LayerMetadata.js
 //reference the current window
 var win = Titanium.UI.currentWindow;
 

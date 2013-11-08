@@ -23,12 +23,8 @@ btnBack.addEventListener('click', function() {
 var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
 
-//Ti.API.info("WcsCoverageEnvelope.js - win.xmlData: " + win.xmlData);
-
 var xmlData = Ti.XML;
 xmlData = win.xmlData;
-
-//Ti.API.info("WcsCoverageEnvelope.js - xmlData: " + xmlData);
 
 //create the tableView
 var tblCoverageEnvelope = Titanium.UI.createTableView({

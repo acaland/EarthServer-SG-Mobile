@@ -44,7 +44,7 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="iphone" version="1.4.0">dk.napp.slidemenu</module>
+         <module platform="iphone">dk.napp.slidemenu</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

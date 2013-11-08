@@ -23,9 +23,6 @@ btnBack.addEventListener('click', function() {
 var pWidth = Ti.Platform.displayCaps.platformWidth;
 var pHeight = Ti.Platform.displayCaps.platformHeight;
 
-Titanium.API.info("CoverageInfo.js - win.rowId: " + win.rowID);
-//Titanium.API.info("CoverageInfo.js - win.XML.CoverageId: " + win.xml.documentElement.getElementsByTagName("wcs:CoverageSummary").item(win.rowID - 1).getElementsByTagName("wcs:CoverageId").item(0).textContent);
-
 var xml = Ti.XML;
 xml = win.xml;
 

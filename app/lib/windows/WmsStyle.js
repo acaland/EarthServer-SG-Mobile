@@ -204,8 +204,7 @@ for (var i = 0; i < styleItem.getElementsByTagName("LegendURL").length; i++) {
 
 	row.add(titleRow);
 	row.add(descriptionRow);
-	sectionLegendURL.add(row);
-	
+	sectionLegendURL.add(row);	
 }
 
 tblStyle.data = [sectionStyleDescription, sectionLegendURL];
