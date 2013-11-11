@@ -37,8 +37,9 @@ xhr.onerror = function(e) {
 	Ti.API.info(xhr.responseText);
 	Ti.API.info(xhr.location);
 	//Ti.API.info(xhr.responseData);
-	alert(e);
-}
+
+	alert("Please check your internet connectivity");
+};
 
 xhr.open('GET', url);
 //Ti.API.info("URL : " + url);
@@ -47,7 +48,7 @@ xhr.setRequestHeader("Cookie", net.shibCookie);
 xhr.send();
 
 function download(url, filename) {
-	var xhr = Ti.Network.createHTTPClient({timeout: 3000});
+	var xhr = Ti.Network.createHTTPClient({timeout: 10000});
 	xhr.onload = function() {
 		
 		
@@ -72,8 +73,8 @@ function download(url, filename) {
 		Ti.API.info(xhr.responseText);
 		Ti.API.info(xhr.location);
 		//Ti.API.info(xhr.responseData);
-		alert(e);
-	}
+		alert("Please check your internet connectivity");
+	};
 
 
 	xhr.open('GET', url);

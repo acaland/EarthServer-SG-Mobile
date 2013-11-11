@@ -25,16 +25,17 @@ exports.retrieveIdpList = function(entityId, _callback) {
 			var response = JSON.parse(this.responseText);	
 		} catch (err) {
 			Ti.API.info(err);
-		} 
+		}; 
 		
 		//Ti.API.info(response);
 		//Ti.API.info(response.federations);
 		_callback(response.federations);
-	}
+	};
 	xhr.onerror = function() {
 		Ti.API.debug(e.error);
-		alert(e.error);
-	}
+		Ti.API.info(e);
+		alert("Please check your internet connectivity");
+	};
 
 	xhr.open("GET", dsEndPoint);
 	xhr.send();
@@ -59,9 +60,10 @@ exports.apiCall = function(url, _callback) {
 	};
 	xhr.onerror = function(e) {
 		Ti.API.info(xhr.status);
-		alert(e);
+		Ti.API.info(e);
+		alert("Please check your internet connectivity");
 		
-	}
+	};
 	xhr.open('GET', url);
 	Ti.API.info("Cookie:'" + exports.shibCookie + "'");
 	xhr.setRequestHeader("Cookie", exports.shibCookie);

@@ -195,8 +195,8 @@ function openIdpList(e) {
 				origin : e.rowData.idps[i].origin,
 				color : "black",
 				hasChild : true
-			}
-		}
+			};
+		};
 	}
 	//Ti.API.info(JSON.stringify(idpsData));
 
